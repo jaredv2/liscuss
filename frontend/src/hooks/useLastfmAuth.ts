@@ -3,7 +3,7 @@ import { setSupabaseJwt } from "../lib/supabase";
 
 export function useLastfmAuth() {
   const login = useCallback(async () => {
-    const response = await fetch("/api/auth/lastfm/url", { method: "POST" });
+    const response = await fetch("https://liscuss-backend.vercel.app/api/auth/lastfm/url", { method: "POST" });
     if (!response.ok) {
       throw new Error("Failed to create Last.fm auth URL");
     }
