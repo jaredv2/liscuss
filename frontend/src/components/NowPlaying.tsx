@@ -1,11 +1,13 @@
 import type { Track } from "../types";
+import { formatNumber } from "../lib/formatNumber";
 
 type Props = {
   track: Track | null;
   commentCount: number;
+  currentlyListening?: number;
 };
 
-export function NowPlaying({ track, commentCount }: Props) {
+export function NowPlaying({ track, commentCount, currentlyListening }: Props) {
   if (!track) {
     return (
       <section className="rounded-xl border border-white/10 bg-white/[0.03] p-4 sm:p-6">
@@ -15,7 +17,7 @@ export function NowPlaying({ track, commentCount }: Props) {
   }
 
   return (
-    <section className="flex gap-4 rounded-xl border border-white/10 bg-white/[0.03] p-4 sm:gap-5 sm:p-5">
+    <section className="flex gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-3 sm:gap-5 sm:p-5">
       <div className="h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-zinc-900 sm:h-32 sm:w-32 sm:rounded-xl">
         {track.album_art_url ? (
           <img className="h-full w-full object-cover" src={track.album_art_url} alt={`${track.title} artwork`} />
@@ -26,7 +28,10 @@ export function NowPlaying({ track, commentCount }: Props) {
         <h1 className="mt-1 truncate text-xl font-bold tracking-tight text-white sm:mt-2 sm:text-3xl">{track.title}</h1>
         <p className="mt-0.5 truncate text-sm text-zinc-300 sm:mt-1 sm:text-lg">{track.artist}</p>
         {track.album ? <p className="mt-1 truncate text-xs text-zinc-500 sm:mt-2 sm:text-sm">{track.album}</p> : null}
-        <p className="mt-3 text-xs text-zinc-400 sm:mt-5 sm:text-sm">{commentCount} people commented on this track</p>
+        <div className="mt-2 flex flex-wrap gap-3 text-xs text-zinc-400 sm:mt-5 sm:text-sm">
+          <p>{formatNumber(commentCount)} people commented</p>
+          {currentlyListening !== undefined && currentlyListening > 0 && <p>{formatNumber(currentlyListening)} currently listening</p>}
+        </div>
       </div>
     </section>
   );

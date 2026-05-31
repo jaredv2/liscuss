@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Callback } from "./pages/Callback";
 import { Home } from "./pages/Home";
 import { Landing } from "./pages/Landing";
+import { Profile } from "./pages/Profile";
 import { TrackPage } from "./pages/TrackPage";
 
 export function App() {
@@ -11,6 +12,7 @@ export function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/callback" element={<Callback />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/track/:trackId" element={<TrackPage />} />
       </Routes>
     </BrowserRouter>

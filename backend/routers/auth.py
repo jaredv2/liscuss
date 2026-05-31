@@ -8,7 +8,7 @@ from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import RedirectResponse
 from jose import jwt
 
-from services.lastfm import build_auth_url, exchange_token_for_session
+from services.lastfm import build_auth_url, exchange_token_for_session, get_user_info
 
 load_dotenv()
 
@@ -73,7 +73,7 @@ async def _find_profile_user_id(lastfm_username: str) -> str | None:
     return None
 
 
-async def _upsert_profile(user_id: str, username: str, session_key: str) -> None:
+async def _upsert_profile(user_id: str, username: str, session_key: str, avatar_url: str | None = None) -> None:
     await _supabase_request(
         "POST",
         "/rest/v1/profiles?on_conflict=id",
@@ -81,6 +81,7 @@ async def _upsert_profile(user_id: str, username: str, session_key: str) -> None
             "id": user_id,
             "lastfm_username": username,
             "lastfm_session_key": session_key,
+            "avatar_url": avatar_url,
         },
         prefer="resolution=merge-duplicates,return=representation",
     )
@@ -110,8 +111,13 @@ async def lastfm_callback(token: str = Query(...)) -> RedirectResponse:
         session = await exchange_token_for_session(token)
         username = session["name"]
         session_key = session["key"]
+        
+        # Fetch user info from Last.fm to get avatar
+        user_info = await get_user_info(username)
+        avatar_url = user_info.get("avatar_url")
+        
         user_id = await _find_profile_user_id(username) or await _ensure_auth_user(username)
-        await _upsert_profile(user_id, username, session_key)
+        await _upsert_profile(user_id, username, session_key, avatar_url)
         supabase_jwt = _mint_supabase_jwt(user_id, username)
     except HTTPException:
         raise

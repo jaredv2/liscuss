@@ -14,6 +14,41 @@ export function getSupabaseJwt(): string | null {
   return localStorage.getItem(authTokenKey);
 }
 
+export function getSupabaseUserId(): string | null {
+  const token = getSupabaseJwt();
+  if (!token) {
+    return null;
+  }
+
+  try {
+    const [, payload] = token.split(".");
+    const normalized = payload.replace(/-/g, "+").replace(/_/g, "/");
+    const padded = normalized.padEnd(normalized.length + ((4 - (normalized.length % 4)) % 4), "=");
+    const decoded = JSON.parse(atob(padded)) as { sub?: string };
+    return decoded.sub ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export function hasValidStoredSession(): boolean {
+  const token = getSupabaseJwt();
+  const username = getLastfmUsername();
+  if (!token || !username) {
+    return false;
+  }
+
+  try {
+    const [, payload] = token.split(".");
+    const normalized = payload.replace(/-/g, "+").replace(/_/g, "/");
+    const padded = normalized.padEnd(normalized.length + ((4 - (normalized.length % 4)) % 4), "=");
+    const decoded = JSON.parse(atob(padded)) as { exp?: number };
+    return typeof decoded.exp === "number" && decoded.exp * 1000 > Date.now();
+  } catch {
+    return false;
+  }
+}
+
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   accessToken: async () => getSupabaseJwt(),
   auth: {

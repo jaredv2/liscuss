@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Credits } from "../components/Credits";
 import { useLastfmAuth } from "../hooks/useLastfmAuth";
+import { hasValidStoredSession } from "../lib/supabase";
 
 export function Landing() {
+  const navigate = useNavigate();
   const { login } = useLastfmAuth();
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (hasValidStoredSession()) {
+      navigate("/home", { replace: true });
+    }
+  }, [navigate]);
 
   async function handleLogin() {
     try {
