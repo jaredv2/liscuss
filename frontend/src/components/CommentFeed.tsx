@@ -63,8 +63,6 @@ export function CommentFeed({ comments, trackId, onLike, onEdit, onDelete, onCha
 
     const timestamp = formatTimestamp(comment.timestamp_ms);
     await navigator.clipboard.writeText(timestamp).catch(() => undefined);
-    setTimestampNotice(`Copied ${timestamp}. Last.fm does not expose a playback seek API, so the app cannot move playback directly.`);
-    window.setTimeout(() => setTimestampNotice(null), 3500);
   }
 
   function renderComment(comment: Comment, isReply = false) {
@@ -99,7 +97,7 @@ export function CommentFeed({ comments, trackId, onLike, onEdit, onDelete, onCha
                   className="rounded-full bg-lastfm/15 px-2 py-0.5 text-xs font-semibold text-red-200 transition hover:bg-lastfm/30"
                   type="button"
                   onClick={() => void handleTimestampClick(comment)}
-                  title="Copy timestamp. Last.fm has no playback seek API."
+                  title="Copy timestamp"
                 >
                   {formatTimestamp(comment.timestamp_ms)}
                 </button>

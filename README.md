@@ -1,4 +1,4 @@
-# Scrobble Comments
+# Liscuss
 
 Full-stack Last.fm comment app using React, TypeScript, Tailwind, Vite, FastAPI, Python, and Supabase.
 

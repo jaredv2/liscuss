@@ -39,7 +39,7 @@ export function Home() {
       <header className="sticky top-0 z-20 -mx-3 mb-4 border-b border-white/10 bg-ink/95 px-3 py-3 backdrop-blur sm:static sm:mx-0 sm:mb-8 sm:border-b-0 sm:bg-transparent sm:px-0 sm:py-0">
         <div className="flex items-center justify-between gap-3">
           <Link className="truncate text-lg font-extrabold tracking-tight text-white sm:text-xl" to="/">
-            Scrobble Comments
+            Liscuss
           </Link>
           <div className="flex items-center gap-2">
             <Link className="shrink-0 rounded-full border border-white/10 px-3 py-1.5 text-xs font-semibold text-zinc-300 transition hover:border-lastfm/60 hover:text-red-100" to="/profile">

@@ -53,12 +53,12 @@ export function CommentInput({ trackId, parentId = null, onSubmitted, compact = 
         className={`${compact ? "min-h-20" : "min-h-28"} w-full resize-none rounded-lg border border-white/10 bg-black px-3 py-3 text-base text-white outline-none transition placeholder:text-zinc-600 focus:border-lastfm sm:rounded-xl sm:px-4 sm:text-sm`}
         value={body}
         onChange={(event) => setBody(event.target.value)}
-        placeholder={parentId ? "Write a reply..." : "Markdown supported. Add 2:47 or 1:02:11 to tag a moment."}
+        placeholder={parentId ? "Write a reply..." : "Say something about this track..."}
         autoFocus={autoFocus}
       />
       <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="text-xs text-zinc-500 sm:text-sm">
-          {detectedTimestamp !== null ? <span>Pin {formatTimestamp(detectedTimestamp)} detected</span> : "Markdown supported"}
+          {detectedTimestamp !== null ? <span>Pin {formatTimestamp(detectedTimestamp)} detected</span> :""}
           <span className={`ml-2 ${tooLong ? "text-red-300" : "text-zinc-600"}`}>{body.length}/1000</span>
           {error ? <span className="ml-3 text-red-300">{error}</span> : null}
         </div>

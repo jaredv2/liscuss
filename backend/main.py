@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from routers import auth, tracks
 
-app = FastAPI(title="Scrobble Comments API")
+app = FastAPI(title="Liscuss API")
 
 app.add_middleware(
     CORSMiddleware,
