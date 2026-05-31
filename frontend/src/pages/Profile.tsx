@@ -48,7 +48,7 @@ export function Profile() {
 
         // Get top songs from Last.fm
         try {
-          const response = await fetch(`/api/users/${encodeURIComponent(viewingUsername)}/top-tracks`);
+          const response = await fetch(`/api/users/${encodeURIComponent(viewingUsername || "")}/top-tracks`);
           if (response.ok) {
             const data = await response.json();
             setTopSongs(data.tracks || []);
